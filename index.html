@@ -8,7 +8,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Встроенные стили — мрачные и адаптивные */
+    /* Глобальные сбросы и мрачная тема */
     * {
       margin: 0;
       padding: 0;
@@ -29,6 +29,7 @@
       font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
       padding: 0.8rem;
       color: #e3d9d9;
+      overflow-x: hidden;
     }
 
     .card {
@@ -46,6 +47,7 @@
         0 0 0 1px rgba(80, 10, 10, 0.1) inset,
         0 0 25px rgba(150, 0, 0, 0.1);
       transition: box-shadow 0.3s ease;
+      overflow-x: hidden;
     }
 
     .card:hover {
@@ -178,6 +180,7 @@
       color: #bc9a9a;
       text-transform: uppercase;
       letter-spacing: 1.2px;
+      flex-shrink: 0;
     }
 
     .contact-label i {
@@ -187,29 +190,47 @@
       text-shadow: 0 0 6px #770000;
     }
 
+    /* ========= ГЛАВНЫЕ ПРАВКИ ДЛЯ ПЕРЕНОСА ДЛИННЫХ НИКОВ ========= */
+    .flex-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 8px;
+      max-width: 100%;
+      flex: 1;
+      min-width: 0; /* Запрещаем переполнение flex-контейнера */
+    }
+
+    /* Блок с контактным значением (ссылка + кнопка) */
     .contact-value {
-      font-family: 'Courier New', 'Fira Code', monospace;
-      font-size: 1rem;
-      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: #150a0a;
       padding: 0.2rem 0.8rem;
       border-radius: 50px;
       border: 1px solid #572828;
-      color: #eed9d9;
-      letter-spacing: 0.3px;
       box-shadow: inset 0 1px 3px #000000, 0 2px 4px rgba(0,0,0,0.5);
-      word-break: break-word;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      flex: 1;
+      min-width: 0;      /* Важно: позволяет сжиматься и переносить внутренний текст */
       max-width: 100%;
     }
 
+    /* Ссылка внутри — именно она должна переноситься */
     .contact-value a {
       color: #e0c0c0;
       text-decoration: none;
       transition: all 0.15s;
       word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;  /* Разрешаем перенос */
+      flex: 1;
+      min-width: 0;
+      font-family: 'Courier New', 'Fira Code', monospace;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      line-height: 1.4;
     }
 
     .contact-value a:hover {
@@ -217,6 +238,7 @@
       text-shadow: 0 0 5px #b30000;
     }
 
+    /* Кнопка копирования не должна переноситься */
     .copy-btn {
       background: none;
       border: 1px solid #572828;
@@ -231,8 +253,7 @@
       transition: 0.2s;
       background: #1e0c0c;
       font-size: 1rem;
-      margin-left: 4px;
-      flex-shrink: 0;
+      flex-shrink: 0;   /* Не сжимается */
     }
 
     .copy-btn:hover {
@@ -288,14 +309,6 @@
       padding-top: 0.8rem;
     }
 
-    .flex-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      max-width: 100%;
-    }
-
     .toast-msg {
       position: fixed;
       bottom: 20px;
@@ -318,119 +331,83 @@
 
     .toast-msg.show {
       opacity: 1;
-      pointer-events: none;
     }
 
-    /* Стили для счётчика */
-    .counter-container {
-      text-align: center;
-      margin-top: 25px;
-    }
-
-    .counter-caption {
-      font-family: 'Courier New', monospace;
-      color: #7a4f4f;
-      font-size: 0.7rem;
-      margin-top: 5px;
-      letter-spacing: 1px;
-    }
-
-    /* Мобильная адаптация */
-    @media (max-width: 480px) {
-      body {
-        padding: 0.5rem;
-      }
-
+    /* Мобильная адаптация: усиление переноса */
+    @media (max-width: 520px) {
       .card {
         padding: 1.5rem 1rem;
-        border-radius: 28px;
-      }
-
-      .site-title {
-        font-size: 0.9rem;
-        letter-spacing: 3px;
-        word-spacing: 2px;
-      }
-
-      .avatar-frame {
-        width: 110px;
-        height: 110px;
-      }
-
-      .whisper-text {
-        font-size: 0.7rem;
-        letter-spacing: 2px;
-      }
-
-      .status-text {
-        font-size: 0.65rem;
-        padding: 3px 10px;
-        letter-spacing: 1px;
       }
 
       .contact-block {
         padding: 1rem 0.8rem;
       }
 
+      /* На узких экранах контакты выстраиваются вертикально */
       .contact-item {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
-        margin-bottom: 1rem;
-      }
-
-      .contact-label {
-        font-size: 0.85rem;
-      }
-
-      .contact-value {
-        font-size: 0.9rem;
-        padding: 0.2rem 0.8rem;
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .contact-value a {
-        max-width: calc(100% - 40px);
+        margin-bottom: 1.2rem;
       }
 
       .flex-row {
         width: 100%;
-        justify-content: space-between;
+        flex-wrap: nowrap;
+      }
+
+      /* Значение контакта занимает всю ширину, текст ссылки переносится свободно */
+      .contact-value {
+        width: auto;
+        flex: 1;
+        padding: 0.3rem 0.8rem;
+      }
+
+      .contact-value a {
+        font-size: 0.85rem;
+        word-break: break-all;   /* более агрессивный перенос для очень длинных строк без пробелов */
+        overflow-wrap: anywhere;
       }
 
       .copy-btn {
-        width: 32px;
-        height: 32px;
-      }
-
-      .disclaimer {
-        padding: 1rem;
-        font-size: 0.7rem;
-      }
-
-      .disclaimer-header {
-        font-size: 0.65rem;
-      }
-
-      .ghost-note {
-        font-size: 0.6rem;
+        width: 34px;
+        height: 34px;
       }
     }
 
-    @media (max-width: 360px) {
-      .card {
-        padding: 1.2rem 0.8rem;
+    /* Для совсем маленьких экранов (iPhone SE и т.д.) */
+    @media (max-width: 400px) {
+      .contact-value a {
+        font-size: 0.75rem;
       }
 
-      .avatar-frame {
-        width: 100px;
-        height: 100px;
+      .contact-label {
+        font-size: 0.8rem;
       }
 
       .contact-value {
-        font-size: 0.8rem;
-        padding: 0.15rem 0.6rem;
+        gap: 4px;
+        padding: 0.2rem 0.6rem;
+      }
+    }
+
+    /* Обеспечиваем перенос даже в десктопном режиме, если строка не помещается */
+    @media (min-width: 521px) {
+      .contact-value a {
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
+      .flex-row {
+        max-width: 70%;
+      }
+      /* При нормальной ширине блок с контактами не съезжает */
+      .contact-item {
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .contact-label {
+        min-width: 100px;
       }
     }
   </style>
@@ -444,18 +421,21 @@
     <!-- Аватар + статус -->
     <div class="avatar-section">
       <div class="avatar-frame">
-        <!-- ===== ВСТАВЬ СЮДА ПУТЬ К АВАТАРКЕ ===== -->
-        <img src="image.JPG" alt="Моя аватарка" class="avatar-img">
-        <!-- ====================================== -->
+        <!-- ПУТЬ К АВАТАРКЕ (замените на свой) -->
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a0808'/%3E%3Ctext x='50' y='55' font-size='40' text-anchor='middle' fill='%238b3a3a' font-family='monospace'%3E☠%3C/text%3E%3C/svg%3E" alt="антисоциал аватар" class="avatar-img">
+        <!-- 
+          Для реальной аватарки замените src="image.JPG" на свой путь.
+          Сейчас временное SVG на случай отсутствия файла.
+        -->
       </div>
       <div class="whisper-text">WAKEN ONES' DEAD</div>
       <div class="status-text">
         супер крутой мортис<br>
-         тир 1 бруда этого мира
+        тир 1 бруда этого мира
       </div>
     </div>
 
-    <!-- Контакты -->
+    <!-- Контакты (все длинные строки будут корректно переноситься) -->
     <div class="contact-block">
       <!-- Telegram -->
       <div class="contact-item">
@@ -464,11 +444,11 @@
           <span>Telegram</span>
         </div>
         <div class="flex-row">
-          <span class="contact-value">
+          <div class="contact-value">
             <a href="https://t.me/XAXAXAXXAXAXAXAXAXXAXAXAAXXA" target="_blank" rel="noopener noreferrer">
               @XAXAXAXXAXAXAXAXAXXAXAXAAXXA
             </a>
-          </span>
+          </div>
           <button class="copy-btn" data-copy="@XAXAXAXXAXAXAXAXAXXAXAXAAXXA">
             <i class="far fa-copy"></i>
           </button>
@@ -482,11 +462,11 @@
           <span>TikTok</span>
         </div>
         <div class="flex-row">
-          <span class="contact-value">
+          <div class="contact-value">
             <a href="https://www.tiktok.com/@prokxznik?_r=1&_t=ZT-95P2qcfvSN4" target="_blank" rel="noopener noreferrer">
               @prokxznik
             </a>
-          </span>
+          </div>
           <button class="copy-btn" data-copy="@prokxznik">
             <i class="far fa-copy"></i>
           </button>
@@ -500,15 +480,16 @@
           <span>Телефон</span>
         </div>
         <div class="flex-row">
-          <span class="contact-value">
+          <div class="contact-value">
             <a href="tel:+19525201095">++1 952 520 1095</a>
-          </span>
+          </div>
           <button class="copy-btn" data-copy="+19525201095">
             <i class="far fa-copy"></i>
           </button>
         </div>
       </div>
     </div>
+
     <!-- Дисклеймер -->
     <div class="disclaimer">
       <div class="disclaimer-header">
@@ -528,35 +509,47 @@
   <div id="copyToast" class="toast-msg">☠ скопировано</div>
 
   <script>
-    (function(){
+    (function() {
       const toast = document.getElementById('copyToast');
       function showToast(msg) {
         toast.textContent = msg || '☠ скопировано';
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 1500);
       }
+
       async function copyText(text) {
         try {
           await navigator.clipboard.writeText(text);
           showToast('☠ ' + text + '  — скопировано');
         } catch (err) {
+          // fallback для старых браузеров
           const ta = document.createElement('textarea');
           ta.value = text;
-          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
           document.body.appendChild(ta);
           ta.select();
-          try { document.execCommand('copy'); showToast('☠ скопировано (fallback)'); }
-          catch(e) { alert('Не удалось скопировать'); }
+          try {
+            document.execCommand('copy');
+            showToast('☠ скопировано (fallback)');
+          } catch (e) {
+            alert('Не удалось скопировать');
+          }
           document.body.removeChild(ta);
         }
       }
+
+      // Добавляем обработчики для всех кнопок копирования
       document.querySelectorAll('[data-copy]').forEach(btn => {
         btn.addEventListener('click', e => {
           e.preventDefault();
-          copyText(btn.getAttribute('data-copy'));
+          e.stopPropagation();
+          const textToCopy = btn.getAttribute('data-copy');
+          if (textToCopy) copyText(textToCopy);
         });
       });
     })();
   </script>
 </body>
 </html>
+
