@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#0b0b0b">
   <title>bio by antisocial</title>
-  <!-- Font Awesome -->
+  <!-- Font Awesome 6 (бесплатная версия) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Глобальные сбросы и мрачная тема */
     * {
       margin: 0;
       padding: 0;
@@ -47,7 +46,6 @@
         0 0 0 1px rgba(80, 10, 10, 0.1) inset,
         0 0 25px rgba(150, 0, 0, 0.1);
       transition: box-shadow 0.3s ease;
-      overflow-x: hidden;
     }
 
     .card:hover {
@@ -57,6 +55,7 @@
         0 0 35px rgba(180, 0, 0, 0.15);
     }
 
+    /* Заголовок с черепками – теперь они не слетают */
     .site-title {
       text-align: center;
       font-family: 'Courier New', 'Fira Code', monospace;
@@ -69,13 +68,32 @@
       border-bottom: 1px dashed #4f2a2a;
       padding-bottom: 0.9rem;
       margin-bottom: 1.5rem;
-      word-spacing: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;      /* разрешаем перенос только если совсем нет места */
+      gap: 8px;
+      white-space: normal;
+      word-break: keep-all;
     }
 
     .site-title i {
-      margin: 0 5px;
+      margin: 0 2px;
       color: #8b3a3a;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      flex-shrink: 0;       /* иконки не сжимаются и не ломаются */
+    }
+
+    /* Для очень узких экранов уменьшаем отступы и шрифт, но черепки остаются */
+    @media (max-width: 460px) {
+      .site-title {
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+        gap: 4px;
+      }
+      .site-title i {
+        font-size: 0.85rem;
+      }
     }
 
     .avatar-section {
@@ -190,7 +208,7 @@
       text-shadow: 0 0 6px #770000;
     }
 
-    /* ========= ГЛАВНЫЕ ПРАВКИ ДЛЯ ПЕРЕНОСА ДЛИННЫХ НИКОВ ========= */
+    /* Гибкий контейнер для контактного значения и кнопки */
     .flex-row {
       display: flex;
       align-items: center;
@@ -198,10 +216,9 @@
       gap: 8px;
       max-width: 100%;
       flex: 1;
-      min-width: 0; /* Запрещаем переполнение flex-контейнера */
+      min-width: 0;
     }
 
-    /* Блок с контактным значением (ссылка + кнопка) */
     .contact-value {
       display: flex;
       align-items: center;
@@ -212,24 +229,23 @@
       border: 1px solid #572828;
       box-shadow: inset 0 1px 3px #000000, 0 2px 4px rgba(0,0,0,0.5);
       flex: 1;
-      min-width: 0;      /* Важно: позволяет сжиматься и переносить внутренний текст */
+      min-width: 0;
       max-width: 100%;
     }
 
-    /* Ссылка внутри — именно она должна переноситься */
+    /* Ссылка с переносом длинных строк — решает проблему огромного ника */
     .contact-value a {
       color: #e0c0c0;
       text-decoration: none;
       transition: all 0.15s;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      white-space: normal;  /* Разрешаем перенос */
+      word-break: break-all;      /* принудительный перенос любой длинной строки */
+      overflow-wrap: anywhere;
+      white-space: normal;
       flex: 1;
       min-width: 0;
       font-family: 'Courier New', 'Fira Code', monospace;
       font-size: 1rem;
       font-weight: 500;
-      letter-spacing: 0.3px;
       line-height: 1.4;
     }
 
@@ -238,7 +254,6 @@
       text-shadow: 0 0 5px #b30000;
     }
 
-    /* Кнопка копирования не должна переноситься */
     .copy-btn {
       background: none;
       border: 1px solid #572828;
@@ -253,7 +268,7 @@
       transition: 0.2s;
       background: #1e0c0c;
       font-size: 1rem;
-      flex-shrink: 0;   /* Не сжимается */
+      flex-shrink: 0;
     }
 
     .copy-btn:hover {
@@ -261,10 +276,6 @@
       color: #f0c0c0;
       border-color: #a14444;
       box-shadow: 0 0 10px #5f1a1a;
-    }
-
-    .copy-btn i {
-      pointer-events: none;
     }
 
     .disclaimer {
@@ -333,81 +344,42 @@
       opacity: 1;
     }
 
-    /* Мобильная адаптация: усиление переноса */
-    @media (max-width: 520px) {
+    /* Мобильная адаптация: вертикальный список контактов и усиленный перенос */
+    @media (max-width: 540px) {
       .card {
         padding: 1.5rem 1rem;
       }
-
       .contact-block {
         padding: 1rem 0.8rem;
       }
-
-      /* На узких экранах контакты выстраиваются вертикально */
       .contact-item {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
         margin-bottom: 1.2rem;
       }
-
       .flex-row {
         width: 100%;
-        flex-wrap: nowrap;
       }
-
-      /* Значение контакта занимает всю ширину, текст ссылки переносится свободно */
       .contact-value {
-        width: auto;
-        flex: 1;
         padding: 0.3rem 0.8rem;
       }
-
       .contact-value a {
         font-size: 0.85rem;
-        word-break: break-all;   /* более агрессивный перенос для очень длинных строк без пробелов */
-        overflow-wrap: anywhere;
+        word-break: break-all;
       }
-
       .copy-btn {
         width: 34px;
         height: 34px;
       }
     }
 
-    /* Для совсем маленьких экранов (iPhone SE и т.д.) */
-    @media (max-width: 400px) {
+    @media (max-width: 380px) {
       .contact-value a {
         font-size: 0.75rem;
       }
-
       .contact-label {
         font-size: 0.8rem;
-      }
-
-      .contact-value {
-        gap: 4px;
-        padding: 0.2rem 0.6rem;
-      }
-    }
-
-    /* Обеспечиваем перенос даже в десктопном режиме, если строка не помещается */
-    @media (min-width: 521px) {
-      .contact-value a {
-        white-space: normal;
-        word-break: break-word;
-        overflow-wrap: break-word;
-      }
-      .flex-row {
-        max-width: 70%;
-      }
-      /* При нормальной ширине блок с контактами не съезжает */
-      .contact-item {
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-      .contact-label {
-        min-width: 100px;
       }
     }
   </style>
@@ -415,18 +387,15 @@
 <body>
   <div class="card">
     <div class="site-title">
-      <i class="fas fa-skull"></i> bio by antisocial <i class="fas fa-skull"></i>
+      <i class="fas fa-skull"></i> 
+      <span>bio by antisocial</span> 
+      <i class="fas fa-skull"></i>
     </div>
 
-    <!-- Аватар + статус -->
+    <!-- Аватар с исходным путём image.JPG -->
     <div class="avatar-section">
       <div class="avatar-frame">
-        <!-- ПУТЬ К АВАТАРКЕ (замените на свой) -->
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a0808'/%3E%3Ctext x='50' y='55' font-size='40' text-anchor='middle' fill='%238b3a3a' font-family='monospace'%3E☠%3C/text%3E%3C/svg%3E" alt="антисоциал аватар" class="avatar-img">
-        <!-- 
-          Для реальной аватарки замените src="image.JPG" на свой путь.
-          Сейчас временное SVG на случай отсутствия файла.
-        -->
+        <img src="image.JPG" alt="Моя аватарка" class="avatar-img">
       </div>
       <div class="whisper-text">WAKEN ONES' DEAD</div>
       <div class="status-text">
@@ -435,7 +404,7 @@
       </div>
     </div>
 
-    <!-- Контакты (все длинные строки будут корректно переноситься) -->
+    <!-- Контакты (Telegram с очень длинным ником теперь переносится) -->
     <div class="contact-block">
       <!-- Telegram -->
       <div class="contact-item">
@@ -505,7 +474,6 @@
     </div>
   </div>
 
-  <!-- Уведомление о копировании -->
   <div id="copyToast" class="toast-msg">☠ скопировано</div>
 
   <script>
@@ -522,7 +490,6 @@
           await navigator.clipboard.writeText(text);
           showToast('☠ ' + text + '  — скопировано');
         } catch (err) {
-          // fallback для старых браузеров
           const ta = document.createElement('textarea');
           ta.value = text;
           ta.style.position = 'fixed';
@@ -531,7 +498,7 @@
           ta.select();
           try {
             document.execCommand('copy');
-            showToast('☠ скопировано (fallback)');
+            showToast('☠ скопировано');
           } catch (e) {
             alert('Не удалось скопировать');
           }
@@ -539,11 +506,9 @@
         }
       }
 
-      // Добавляем обработчики для всех кнопок копирования
       document.querySelectorAll('[data-copy]').forEach(btn => {
-        btn.addEventListener('click', e => {
+        btn.addEventListener('click', (e) => {
           e.preventDefault();
-          e.stopPropagation();
           const textToCopy = btn.getAttribute('data-copy');
           if (textToCopy) copyText(textToCopy);
         });
@@ -552,4 +517,3 @@
   </script>
 </body>
 </html>
-
