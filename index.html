@@ -7,11 +7,7 @@
   <title>bio by antisocial</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: #050505;
@@ -24,7 +20,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+      font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
       padding: 0.8rem;
       color: #e3d9d9;
       overflow-x: hidden;
@@ -113,7 +109,7 @@
       text-align: center;
     }
 
-    /* Блок контактов (без изменений) */
+    /* Контакты */
     .contact-block {
       background: rgba(15, 5, 5, 0.5);
       border-radius: 28px;
@@ -185,7 +181,7 @@
     }
     .copy-btn:hover { background: #3f1c1c; color: #f0c0c0; border-color: #a14444; }
 
-    /* ---------- КАСТОМНЫЙ ПЛЕЕР (без текста названий треков) ---------- */
+    /* Блок музыки – один трек, заголовок "моя музыка" */
     .music-section {
       margin: 1rem 0 1.5rem;
     }
@@ -202,11 +198,8 @@
       border-radius: 24px;
       padding: 1rem;
       border: 1px solid #3f2020;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
     }
-    /* каждый плеер */
+    /* Кастомный плеер */
     .custom-player {
       background: rgba(0, 0, 0, 0.4);
       border-radius: 50px;
@@ -216,7 +209,6 @@
       gap: 12px;
       flex-wrap: wrap;
       border: 1px solid #4a2525;
-      transition: all 0.2s;
     }
     .play-pause-btn {
       background: #1a0a0a;
@@ -268,26 +260,11 @@
       min-width: 70px;
       text-align: right;
     }
-    /* мобильная адаптация плеера */
     @media (max-width: 500px) {
-      .custom-player {
-        flex-wrap: wrap;
-        padding: 8px 12px;
-        border-radius: 28px;
-      }
-      .player-progress-container {
-        order: 3;
-        width: 100%;
-        margin-top: 4px;
-      }
-      .play-pause-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
-      }
-      .time-display {
-        font-size: 0.65rem;
-      }
+      .custom-player { flex-wrap: wrap; padding: 8px 12px; border-radius: 28px; }
+      .player-progress-container { order: 3; width: 100%; margin-top: 4px; }
+      .play-pause-btn { width: 34px; height: 34px; font-size: 1rem; }
+      .time-display { font-size: 0.65rem; }
     }
 
     .disclaimer {
@@ -387,16 +364,14 @@
     </div>
   </div>
 
-  <!-- Блок МОИ ТРЕКИ (кастомные плееры, без названий и нумерации) -->
+  <!-- Блок МОЯ МУЗЫКА (один кастомный плеер) -->
   <div class="music-section">
     <div class="music-header">
       <i class="fas fa-skull" style="color: #9e3b3b;"></i>
-      <span style="font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; color: #bc9a9a;">мои треки</span>
+      <span style="font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; color: #bc9a9a;">моя музыка</span>
       <i class="fas fa-head-side-skull" style="color: #9e3b3b;"></i>
     </div>
-    <div class="tracks-container" id="tracksContainer">
-      <!-- Плееры будут создаваться через JS (чтобы легко добавлять треки без дублирования кода) -->
-    </div>
+    <div class="tracks-container" id="trackContainer"></div>
   </div>
 
   <div class="disclaimer">
@@ -409,98 +384,72 @@
 <div id="copyToast" class="toast-msg">☠ скопировано</div>
 
 <script>
-  // ========== СПИСОК ВАШИХ ТРЕКОВ (ЗАМЕНИТЕ ПУТИ) ==========
-  const tracks = [
-    { src: "zitraxmode.mp3.mp3" },   // первый трек — заменить на путь к файлу
-    { src: "track2.mp3" }    // второй трек
-  ];
-  // Если нужно больше треков — просто добавьте объекты { src: "трек3.mp3" }
+  // ===== НАСТРОЙКА ТРЕКА (ЗАМЕНИТЕ НА ВАШ MP3) =====
+  const trackSrc = "zitraxmode.mp3.mp3";   // путь к вашему MP3-файлу
 
-  // Функция форматирования времени (секунды -> mm:ss)
+  // Функция форматирования времени
   function formatTime(sec) {
-    if (isNaN(sec)) return "0:00";
+    if (isNaN(sec) || !isFinite(sec)) return "0:00";
     const minutes = Math.floor(sec / 60);
     const seconds = Math.floor(sec % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
-  // Создаём кастомный плеер для каждого трека
-  function createPlayer(audioSrc, index) {
+  // Создаём кастомный плеер
+  function createPlayer(audioSrc) {
     const playerDiv = document.createElement('div');
     playerDiv.className = 'custom-player';
 
-    // Кнопка play/pause
     const playBtn = document.createElement('button');
     playBtn.className = 'play-pause-btn';
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
-    
-    // Контейнер прогресса
+
     const progressContainer = document.createElement('div');
     progressContainer.className = 'player-progress-container';
-    
     const progressBar = document.createElement('div');
     progressBar.className = 'progress-bar';
     const progressFill = document.createElement('div');
     progressFill.className = 'progress-fill';
     progressBar.appendChild(progressFill);
-    
     const timeSpan = document.createElement('span');
     timeSpan.className = 'time-display';
     timeSpan.textContent = '0:00 / 0:00';
-    
     progressContainer.appendChild(progressBar);
     progressContainer.appendChild(timeSpan);
-    
+
     playerDiv.appendChild(playBtn);
     playerDiv.appendChild(progressContainer);
-    
-    // Создаём скрытый аудиоэлемент
+
     const audio = new Audio(audioSrc);
     audio.preload = 'metadata';
-    
-    let isPlaying = false;
-    
-    // Обновление прогресса и времени
+
     audio.addEventListener('loadedmetadata', () => {
       timeSpan.textContent = `0:00 / ${formatTime(audio.duration)}`;
     });
-    
+
     audio.addEventListener('timeupdate', () => {
       const percent = (audio.currentTime / audio.duration) * 100;
       progressFill.style.width = `${percent}%`;
       timeSpan.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
     });
-    
+
     audio.addEventListener('ended', () => {
-      isPlaying = false;
       playBtn.innerHTML = '<i class="fas fa-play"></i>';
       progressFill.style.width = '0%';
       timeSpan.textContent = `0:00 / ${formatTime(audio.duration)}`;
     });
-    
-    // Клик по кнопке Play/Pause
+
     playBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (isPlaying) {
-        audio.pause();
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
-      } else {
-        // Останавливаем все другие плееры (чтобы одновременно играл только один)
-        document.querySelectorAll('.custom-player').forEach(player => {
-          const otherAudio = player._audio;
-          if (otherAudio && otherAudio !== audio && !otherAudio.paused) {
-            otherAudio.pause();
-            const otherBtn = player.querySelector('.play-pause-btn');
-            if (otherBtn) otherBtn.innerHTML = '<i class="fas fa-play"></i>';
-          }
-        });
+      if (audio.paused) {
         audio.play();
         playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        audio.pause();
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
       }
-      isPlaying = !isPlaying;
     });
-    
-    // Клик по прогресс-бару для перемотки
+
     progressBar.addEventListener('click', (e) => {
       const rect = progressBar.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
@@ -510,26 +459,19 @@
         audio.currentTime = percent * audio.duration;
       }
     });
-    
-    // Сохраняем ссылку на аудио в DOM-элементе, чтобы можно было останавливать другие плееры
-    playerDiv._audio = audio;
-    
+
     return playerDiv;
   }
-  
-  // Рендер всех плееров
-  const container = document.getElementById('tracksContainer');
-  tracks.forEach((track, idx) => {
-    const player = createPlayer(track.src, idx);
-    container.appendChild(player);
-  });
-  
-  // Если список треков пуст — показать заглушку (но у нас есть два по умолчанию)
-  if (tracks.length === 0) {
-    container.innerHTML = '<div style="color:#7a4f4f; text-align:center; padding: 1rem; font-family: monospace;">нет треков</div>';
+
+  // Вставляем один плеер
+  const container = document.getElementById('trackContainer');
+  if (trackSrc) {
+    container.appendChild(createPlayer(trackSrc));
+  } else {
+    container.innerHTML = '<div style="color:#7a4f4f; text-align:center; padding: 1rem;">нет трека</div>';
   }
 
-  // ========== Копирование ==========
+  // Копирование контактов
   const toast = document.getElementById('copyToast');
   function showToast(msg) {
     toast.textContent = msg || '☠ скопировано';
