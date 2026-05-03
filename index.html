@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#0b0b0b">
   <title>bio by antisocial</title>
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -36,20 +35,16 @@
       width: 100%;
       background: rgba(8, 6, 6, 0.85);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(120, 30, 30, 0.3);
       border-top: 1px solid rgba(180, 40, 40, 0.25);
       border-radius: 32px;
       padding: 2rem 1.8rem 2.2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.8),
-        0 0 0 1px rgba(80, 10, 10, 0.1) inset,
-        0 0 25px rgba(150, 0, 0, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(80, 10, 10, 0.1) inset, 0 0 25px rgba(150, 0, 0, 0.1);
       transition: box-shadow 0.3s ease;
       overflow-x: hidden;
     }
 
-    /* Заголовок — черепки всегда рядом, не ломаются */
+    /* Заголовок с черепками */
     .site-title {
       text-align: center;
       font-family: 'Courier New', 'Fira Code', monospace;
@@ -69,23 +64,10 @@
       white-space: nowrap;
       gap: 8px;
     }
-
-    .site-title i {
-      flex-shrink: 0;
-      color: #8b3a3a;
-      font-size: 1rem;
-    }
-
-    /* На очень узких экранах заголовок можно прокрутить пальцем, но без переноса строк */
+    .site-title i { flex-shrink: 0; color: #8b3a3a; font-size: 1rem; }
     @media (max-width: 480px) {
-      .site-title {
-        overflow-x: auto;
-        scrollbar-width: none;
-        justify-content: flex-start;
-      }
-      .site-title::-webkit-scrollbar {
-        display: none;
-      }
+      .site-title { overflow-x: auto; scrollbar-width: none; justify-content: flex-start; }
+      .site-title::-webkit-scrollbar { display: none; }
     }
 
     .avatar-section {
@@ -94,17 +76,12 @@
       align-items: center;
       margin-bottom: 1.8rem;
     }
-
     .avatar-frame {
       width: 130px;
       height: 130px;
       border-radius: 50%;
       background: #0e0505;
-      box-shadow: 
-        0 0 0 2px #2f1111,
-        0 0 0 5px rgba(0,0,0,0.5),
-        0 0 25px #3a0000,
-        inset 0 0 15px #1a0000;
+      box-shadow: 0 0 0 2px #2f1111, 0 0 0 5px rgba(0,0,0,0.5), 0 0 25px #3a0000, inset 0 0 15px #1a0000;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -112,60 +89,38 @@
       transition: transform 0.2s;
       overflow: hidden;
     }
-
-    .avatar-frame:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 0 2px #4e1a1a, 0 0 0 5px #0f0202, 0 0 30px #5e0000;
-    }
-
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
+    .avatar-img { width: 100%; height: 100%; object-fit: cover; }
     .whisper-text {
       font-family: 'Courier New', monospace;
       font-size: 0.8rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: #7a4f4f;
-      text-shadow: 0 0 5px #1f0000;
-      margin-top: 4px;
       border-left: 2px solid #5c2a2a;
       padding-left: 12px;
-      font-weight: 300;
-      opacity: 0.9;
     }
-
     .status-text {
       font-family: 'Courier New', monospace;
       font-size: 0.75rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: #9e6b6b;
-      text-shadow: 0 0 4px #3a0000;
       margin-top: 8px;
       padding: 4px 12px;
       background: rgba(20, 5, 5, 0.4);
       border-radius: 30px;
       border: 1px solid #4a2020;
-      backdrop-filter: blur(4px);
       text-align: center;
-      word-break: break-word;
-      line-height: 1.4;
     }
 
+    /* Блок контактов (без изменений) */
     .contact-block {
       background: rgba(15, 5, 5, 0.5);
       border-radius: 28px;
       padding: 1.2rem 1.2rem 1rem;
       margin: 1.2rem 0 1.5rem;
       border: 1px solid #3f2020;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.6), 0 6px 8px rgba(0,0,0,0.3);
     }
-
     .contact-item {
       display: flex;
       align-items: center;
@@ -175,31 +130,18 @@
       padding: 0.2rem 0.3rem;
       border-bottom: 1px dotted #3e1f1f;
     }
-
-    .contact-item:last-of-type {
-      border-bottom: none;
-      margin-bottom: 0;
-    }
-
+    .contact-item:last-of-type { border-bottom: none; }
     .contact-label {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 0.9rem;
-      font-weight: 400;
       color: #bc9a9a;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       flex-shrink: 0;
     }
-
-    .contact-label i {
-      width: 22px;
-      color: #9e3b3b;
-      font-size: 1.2rem;
-      text-shadow: 0 0 6px #770000;
-    }
-
+    .contact-label i { width: 22px; color: #9e3b3b; font-size: 1.2rem; }
     .flex-row {
       display: flex;
       align-items: center;
@@ -209,8 +151,6 @@
       min-width: 0;
       overflow-x: hidden;
     }
-
-    /* Блок со значением — одна строка без переноса, обрезается */
     .contact-value {
       display: flex;
       align-items: center;
@@ -218,31 +158,20 @@
       padding: 0.2rem 0.8rem;
       border-radius: 50px;
       border: 1px solid #572828;
-      box-shadow: inset 0 1px 3px #000000, 0 2px 4px rgba(0,0,0,0.5);
       flex: 1;
       min-width: 0;
       overflow-x: hidden;
     }
-
     .contact-value a {
       color: #e0c0c0;
       text-decoration: none;
       white-space: nowrap;
-      font-family: 'Courier New', 'Fira Code', monospace;
+      font-family: 'Courier New', monospace;
       font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.4;
-      display: block;
-      overflow-x: visible;
     }
-
-    .contact-value a:hover {
-      color: #ff8a8a;
-      text-shadow: 0 0 5px #b30000;
-    }
-
+    .contact-value a:hover { color: #ff8a8a; text-shadow: 0 0 5px #b30000; }
     .copy-btn {
-      background: none;
+      background: #1e0c0c;
       border: 1px solid #572828;
       color: #b17b7b;
       border-radius: 30px;
@@ -252,24 +181,14 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: 0.2s;
-      background: #1e0c0c;
-      font-size: 1rem;
       flex-shrink: 0;
     }
+    .copy-btn:hover { background: #3f1c1c; color: #f0c0c0; border-color: #a14444; }
 
-    .copy-btn:hover {
-      background: #3f1c1c;
-      color: #f0c0c0;
-      border-color: #a14444;
-      box-shadow: 0 0 10px #5f1a1a;
-    }
-
-    /* Блок музыки (треки) */
+    /* ---------- КАСТОМНЫЙ ПЛЕЕР (без текста названий треков) ---------- */
     .music-section {
       margin: 1rem 0 1.5rem;
     }
-
     .music-header {
       display: flex;
       align-items: center;
@@ -278,96 +197,126 @@
       border-left: 4px solid #9e3b3b;
       padding-left: 12px;
     }
-
     .tracks-container {
       background: rgba(15, 5, 5, 0.6);
       border-radius: 24px;
       padding: 1rem;
       border: 1px solid #3f2020;
-    }
-
-    .track {
-      margin-bottom: 1.2rem;
-    }
-
-    .track:last-child {
-      margin-bottom: 0;
-    }
-
-    .track-info {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    /* каждый плеер */
+    .custom-player {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
+      border: 1px solid #4a2525;
+      transition: all 0.2s;
+    }
+    .play-pause-btn {
+      background: #1a0a0a;
+      border: 1px solid #8b3a3a;
+      color: #dba5a5;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+    .play-pause-btn:hover {
+      background: #3f1c1c;
+      color: #ffbaba;
+      border-color: #c95a5a;
+      box-shadow: 0 0 8px #a03333;
+    }
+    .player-progress-container {
+      flex: 3;
+      min-width: 120px;
+      display: flex;
+      align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
     }
-
-    .track-title {
+    .progress-bar {
+      flex: 1;
+      height: 4px;
+      background: #2a1212;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #bd5a5a;
+      border-radius: 4px;
+      transition: width 0.05s linear;
+    }
+    .time-display {
       font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      color: #e0c0c0;
+      font-size: 0.7rem;
+      color: #ac8e8e;
+      min-width: 70px;
+      text-align: right;
     }
-
-    .track-title i {
-      color: #9e3b3b;
-      margin-right: 6px;
-    }
-
-    .track-badge {
-      font-size: 0.65rem;
-      color: #7a4f4f;
-    }
-
-    audio {
-      width: 100%;
-      background: #150a0a;
-      border-radius: 40px;
-      filter: brightness(0.9);
+    /* мобильная адаптация плеера */
+    @media (max-width: 500px) {
+      .custom-player {
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        border-radius: 28px;
+      }
+      .player-progress-container {
+        order: 3;
+        width: 100%;
+        margin-top: 4px;
+      }
+      .play-pause-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+      .time-display {
+        font-size: 0.65rem;
+      }
     }
 
     .disclaimer {
       margin-top: 1.5rem;
-      padding: 1.2rem 1.2rem;
+      padding: 1.2rem;
       background: #0c0404;
       border-left: 5px solid #631e1e;
       border-radius: 12px 20px 20px 12px;
-      box-shadow: inset 0 0 15px #0a0101, 0 6px 12px #030101;
       font-size: 0.75rem;
       line-height: 1.6;
       color: #bba6a6;
-      font-family: 'Courier New', 'Fira Code', monospace;
-      text-shadow: 0 1px 0 #1f0303;
-      word-break: break-word;
+      font-family: 'Courier New', monospace;
     }
-
-    .disclaimer i {
-      color: #a04f4f;
-      margin-right: 5px;
-    }
-
     .disclaimer-header {
       display: flex;
-      align-items: center;
       gap: 6px;
       margin-bottom: 10px;
       font-weight: 600;
       color: #bc7a7a;
-      text-transform: uppercase;
-      letter-spacing: 2px;
       font-size: 0.7rem;
     }
-
     .ghost-note {
       margin-top: 1rem;
       text-align: right;
       font-size: 0.65rem;
       color: #4f3737;
-      font-family: monospace;
       border-top: 1px dashed #2f1a1a;
       padding-top: 0.8rem;
     }
-
     .toast-msg {
       position: fixed;
       bottom: 20px;
@@ -381,62 +330,30 @@
       font-family: monospace;
       font-size: 0.8rem;
       backdrop-filter: blur(12px);
-      box-shadow: 0 0 20px #260000;
       opacity: 0;
-      transition: opacity 0.25s;
+      transition: 0.25s;
       pointer-events: none;
       z-index: 999;
     }
+    .toast-msg.show { opacity: 1; }
 
-    .toast-msg.show {
-      opacity: 1;
-    }
-
-    /* Мобильная адаптация */
     @media (max-width: 540px) {
-      .card {
-        padding: 1.5rem 1rem;
-      }
-      .contact-block {
-        padding: 1rem 0.8rem;
-      }
-      .contact-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 1.2rem;
-      }
-      .flex-row {
-        width: 100%;
-      }
-      .contact-value a {
-        font-size: 0.85rem;
-      }
-      .tracks-container {
-        padding: 0.8rem;
-      }
-      .track-title {
-        font-size: 0.75rem;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .contact-value a {
-        font-size: 0.75rem;
-      }
+      .card { padding: 1.5rem 1rem; }
+      .contact-block { padding: 1rem 0.8rem; }
+      .contact-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .flex-row { width: 100%; }
+      .contact-value a { font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
 <div class="card">
-  <!-- Заголовок с черепками -->
   <div class="site-title">
     <i class="fas fa-skull"></i>
     <span>bio by antisocial</span>
     <i class="fas fa-skull"></i>
   </div>
 
-  <!-- Аватарка и статус -->
   <div class="avatar-section">
     <div class="avatar-frame">
       <img src="image.JPG" alt="avatar" class="avatar-img">
@@ -445,124 +362,200 @@
     <div class="status-text">супер крутой мортис<br>тир 1 бруда этого мира</div>
   </div>
 
-  <!-- Блок контактов -->
+  <!-- Контакты -->
   <div class="contact-block">
     <div class="contact-item">
       <div class="contact-label"><i class="fab fa-telegram-plane"></i> Telegram</div>
       <div class="flex-row">
-        <div class="contact-value">
-          <a href="https://t.me/XAXAXAXXAXAXAXAXAXXAXAXAAXXA" target="_blank" rel="noopener noreferrer">
-            @XAXAXAXXAXAXAXAXAXXAXAXAAXXA
-          </a>
-        </div>
+        <div class="contact-value"><a href="https://t.me/XAXAXAXXAXAXAXAXAXXAXAXAAXXA" target="_blank">@XAXAXAXXAXAXAXAXAXXAXAXAAXXA</a></div>
         <button class="copy-btn" data-copy="@XAXAXAXXAXAXAXAXAXXAXAXAAXXA"><i class="far fa-copy"></i></button>
       </div>
     </div>
     <div class="contact-item">
       <div class="contact-label"><i class="fab fa-tiktok"></i> TikTok</div>
       <div class="flex-row">
-        <div class="contact-value">
-          <a href="https://www.tiktok.com/@prokxznik?_r=1&_t=ZT-95P2qcfvSN4" target="_blank" rel="noopener noreferrer">@prokxznik</a>
-        </div>
+        <div class="contact-value"><a href="https://www.tiktok.com/@prokxznik" target="_blank">@prokxznik</a></div>
         <button class="copy-btn" data-copy="@prokxznik"><i class="far fa-copy"></i></button>
       </div>
     </div>
     <div class="contact-item">
       <div class="contact-label"><i class="fas fa-phone-alt"></i> Телефон</div>
       <div class="flex-row">
-        <div class="contact-value"><a href="tel:+19525201095">++1 952 520 1095</a></div>
+        <div class="contact-value"><a href="tel:+19525201095">+1 952 520 1095</a></div>
         <button class="copy-btn" data-copy="+19525201095"><i class="far fa-copy"></i></button>
       </div>
     </div>
   </div>
 
-  <!-- Блок МОИ ТРЕКИ (только MP3, без стримингов) -->
+  <!-- Блок МОИ ТРЕКИ (кастомные плееры, без названий и нумерации) -->
   <div class="music-section">
     <div class="music-header">
       <i class="fas fa-skull" style="color: #9e3b3b;"></i>
       <span style="font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; color: #bc9a9a;">мои треки</span>
       <i class="fas fa-head-side-skull" style="color: #9e3b3b;"></i>
     </div>
-    <div class="tracks-container">
-      <!-- Трек 1 (замените track1.mp3 на ваш файл) -->
-      <div class="track">
-        <div class="track-info">
-          <span class="track-title"><i class="fas fa-play-circle"></i> первый трек</span>
-          <span class="track-badge">[оригинал]</span>
-        </div>
-        <audio controls preload="none">
-          <source src="zitraxmode.mp3.mp3" type="audio/mpeg">
-          Ваш браузер не поддерживает аудио.
-        </audio>
-      </div>
-      <!-- Трек 2 (замените track2.mp3) -->
-    
-      <!-- Трек 3 (раскомментируйте и добавьте файл) 
-      <div class="track">
-        <div class="track-info">
-          <span class="track-title"><i class="fas fa-microphone-alt"></i> третий трек</span>
-        </div>
-        <audio controls preload="none">
-          <source src="track3.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-      -->
+    <div class="tracks-container" id="tracksContainer">
+      <!-- Плееры будут создаваться через JS (чтобы легко добавлять треки без дублирования кода) -->
     </div>
   </div>
 
-  <!-- Дисклеймер -->
   <div class="disclaimer">
-    <div class="disclaimer-header">
-      <i class="fas fa-triangle-exclamation"></i> DISCLAIMER <i class="fas fa-triangle-exclamation"></i>
-    </div>
+    <div class="disclaimer-header"><i class="fas fa-triangle-exclamation"></i> DISCLAIMER <i class="fas fa-triangle-exclamation"></i></div>
     Я законопослушный пользователь Telegram. Не занимаюсь незаконной деятельностью, не распространяю, не призываю. Всё, что написано с этого аккаунта (включая сообщения в личке, чатах и каналах), написано не мной. Мой аккаунт мог быть скомпрометирован, либо в переписки добавлен спам-бот/кейлоггер. Все действия от моего имени прошу считать следствием взлома или технической ошибки. За достоверность сообщений, отправленных не мной, ответственности не несу.
   </div>
-  <div class="ghost-note">
-    <i class="far fa-eye-slash"></i> void • contact
-  </div>
+  <div class="ghost-note"><i class="far fa-eye-slash"></i> void • contact</div>
 </div>
 
-<!-- Уведомление о копировании -->
 <div id="copyToast" class="toast-msg">☠ скопировано</div>
 
 <script>
-  (function() {
-    const toast = document.getElementById('copyToast');
-    function showToast(msg) {
-      toast.textContent = msg || '☠ скопировано';
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 1500);
-    }
+  // ========== СПИСОК ВАШИХ ТРЕКОВ (ЗАМЕНИТЕ ПУТИ) ==========
+  const tracks = [
+    { src: "zitraxmode.mp3.mp3" }
+  // Если нужно больше треков — просто добавьте объекты { src: "трек3.mp3" }
 
-    async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        showToast('☠ ' + text + '  — скопировано');
-      } catch (err) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-          document.execCommand('copy');
-          showToast('☠ скопировано');
-        } catch (e) {
-          alert('Не удалось скопировать');
-        }
-        document.body.removeChild(ta);
-      }
-    }
+  // Функция форматирования времени (секунды -> mm:ss)
+  function formatTime(sec) {
+    if (isNaN(sec)) return "0:00";
+    const minutes = Math.floor(sec / 60);
+    const seconds = Math.floor(sec % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
 
-    document.querySelectorAll('[data-copy]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const text = btn.getAttribute('data-copy');
-        if (text) copyText(text);
-      });
+  // Создаём кастомный плеер для каждого трека
+  function createPlayer(audioSrc, index) {
+    const playerDiv = document.createElement('div');
+    playerDiv.className = 'custom-player';
+
+    // Кнопка play/pause
+    const playBtn = document.createElement('button');
+    playBtn.className = 'play-pause-btn';
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    
+    // Контейнер прогресса
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'player-progress-container';
+    
+    const progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar';
+    const progressFill = document.createElement('div');
+    progressFill.className = 'progress-fill';
+    progressBar.appendChild(progressFill);
+    
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'time-display';
+    timeSpan.textContent = '0:00 / 0:00';
+    
+    progressContainer.appendChild(progressBar);
+    progressContainer.appendChild(timeSpan);
+    
+    playerDiv.appendChild(playBtn);
+    playerDiv.appendChild(progressContainer);
+    
+    // Создаём скрытый аудиоэлемент
+    const audio = new Audio(audioSrc);
+    audio.preload = 'metadata';
+    
+    let isPlaying = false;
+    
+    // Обновление прогресса и времени
+    audio.addEventListener('loadedmetadata', () => {
+      timeSpan.textContent = `0:00 / ${formatTime(audio.duration)}`;
     });
-  })();
+    
+    audio.addEventListener('timeupdate', () => {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = `${percent}%`;
+      timeSpan.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+    
+    audio.addEventListener('ended', () => {
+      isPlaying = false;
+      playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      progressFill.style.width = '0%';
+      timeSpan.textContent = `0:00 / ${formatTime(audio.duration)}`;
+    });
+    
+    // Клик по кнопке Play/Pause
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isPlaying) {
+        audio.pause();
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      } else {
+        // Останавливаем все другие плееры (чтобы одновременно играл только один)
+        document.querySelectorAll('.custom-player').forEach(player => {
+          const otherAudio = player._audio;
+          if (otherAudio && otherAudio !== audio && !otherAudio.paused) {
+            otherAudio.pause();
+            const otherBtn = player.querySelector('.play-pause-btn');
+            if (otherBtn) otherBtn.innerHTML = '<i class="fas fa-play"></i>';
+          }
+        });
+        audio.play();
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      }
+      isPlaying = !isPlaying;
+    });
+    
+    // Клик по прогресс-бару для перемотки
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const percent = clickX / width;
+      if (audio.duration) {
+        audio.currentTime = percent * audio.duration;
+      }
+    });
+    
+    // Сохраняем ссылку на аудио в DOM-элементе, чтобы можно было останавливать другие плееры
+    playerDiv._audio = audio;
+    
+    return playerDiv;
+  }
+  
+  // Рендер всех плееров
+  const container = document.getElementById('tracksContainer');
+  tracks.forEach((track, idx) => {
+    const player = createPlayer(track.src, idx);
+    container.appendChild(player);
+  });
+  
+  // Если список треков пуст — показать заглушку (но у нас есть два по умолчанию)
+  if (tracks.length === 0) {
+    container.innerHTML = '<div style="color:#7a4f4f; text-align:center; padding: 1rem; font-family: monospace;">нет треков</div>';
+  }
+
+  // ========== Копирование ==========
+  const toast = document.getElementById('copyToast');
+  function showToast(msg) {
+    toast.textContent = msg || '☠ скопировано';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  }
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('☠ ' + text + '  — скопировано');
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('☠ скопировано');
+    }
+  }
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      copyText(btn.getAttribute('data-copy'));
+    });
+  });
 </script>
 </body>
 </html>
